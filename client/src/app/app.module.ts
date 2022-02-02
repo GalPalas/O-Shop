@@ -1,18 +1,29 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+  GoogleLoginProvider,
+} from 'angularx-social-login';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from 'src/app/navbar/navbar.component';
+import { HomeComponent } from 'src/app/home/home.component';
 import { ProductsComponent } from './products/products.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-import { CheckOutComponent } from './check-out/check-out.component';
-import { OrderSuccessComponent } from './order-success/order-success.component';
-import { MyOrdersComponent } from './my-orders/my-orders.component';
-import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
-import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
-import { LoginComponent } from './login/login.component';
+import { CheckOutComponent } from 'src/app/check-out/check-out.component';
+import { OrderSuccessComponent } from 'src/app/order-success/order-success.component';
+import { MyOrdersComponent } from 'src/app/my-orders/my-orders.component';
+import { AdminProductsComponent } from 'src/app/admin/admin-products/admin-products.component';
+import { AdminOrdersComponent } from 'src/app/admin/admin-orders/admin-orders.component';
+import { LoginComponent } from 'src/app/login/login.component';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
+
+import { CategoryService } from './services/category.service';
+import { ProductService } from './services/product.service';
 
 const appRoutes = [
   { path: '', component: HomeComponent },
@@ -23,6 +34,7 @@ const appRoutes = [
   { path: 'my/orders', component: MyOrdersComponent },
   { path: 'login', component: LoginComponent },
   { path: 'admin/products', component: AdminProductsComponent },
+  { path: 'admin/product/new', component: ProductFormComponent },
   { path: 'admin/orders', component: AdminOrdersComponent },
 ];
 
@@ -38,9 +50,33 @@ const appRoutes = [
     MyOrdersComponent,
     AdminProductsComponent,
     AdminOrdersComponent,
+    ProductFormComponent,
   ],
-  imports: [BrowserModule, RouterModule.forRoot(appRoutes)],
-  providers: [],
+  imports: [
+    FormsModule,
+    BrowserModule,
+    HttpClientModule,
+    SocialLoginModule,
+    RouterModule.forRoot(appRoutes),
+  ],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '1079530250823-ve441metgia253o0otbcstg02omhpmp0.apps.googleusercontent.com'
+            ),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
+    CategoryService,
+    ProductService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

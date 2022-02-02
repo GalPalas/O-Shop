@@ -1,0 +1,16 @@
+.google-sign-in {
+  background-color: white;
+  border: 1px solid #d8ddec;
+  padding: 10px 30px;
+  text-align: center;
+  font-weight: bold;
+  height: 100%;
+}
+
+.google-sign-in img {
+  float: left;
+}
+
+.google-sign-in span {
+  vertical-align: middle;
+}
