@@ -1,0 +1,52 @@
+<div class="row justify-content-center p-4">
+  <div class="col-md-6">
+    <form #f="ngForm" (ngSubmit)="save(f.value)">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          id="title"
+          type="text"
+          name="title"
+          class="form-control"
+          placeholder="Enter title"
+          ngModel
+        />
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text">$</span>
+          <input
+            id="price"
+            type="number"
+            name="price"
+            class="form-control"
+            placeholder="Enter price"
+            ngModel
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select id="category" name="category" class="form-select" ngModel>
+          <option selected>Select a category</option>
+          <option *ngFor="let category of categories" [value]="category.name">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="imgUrl" class="form-label">ImgUrl</label>
+        <input
+          id="imgUrl"
+          type="text"
+          name="imgUrl"
+          class="form-control"
+          placeholder="Enter image Url"
+          ngModel
+        />
+      </div>
+      <button class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>
