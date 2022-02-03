@@ -90,6 +90,13 @@
         <div *ngIf="imgUrl.errors?.['url']">Please enter a valid url</div>
       </div>
       <button class="btn btn-primary mt-2">Save</button>
+      <button
+        type="button"
+        class="btn btn-danger mt-2 mx-2"
+        (click)="onDelete(product)"
+      >
+        Delete
+      </button>
     </form>
   </div>
   <div class="col-md-6">

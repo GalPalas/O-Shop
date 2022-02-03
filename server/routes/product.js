@@ -76,4 +76,19 @@ productRouter.put("/:id", (req, res) => {
   );
 });
 
+productRouter.delete("/:id", (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(400).send(`No record with given id : ${req.params.id}`);
+
+  Product.findByIdAndRemove(req.params.id, (err, doc) => {
+    if (!err) {
+      res.send(doc);
+    } else {
+      console.log(
+        "Error in Product Delete :" + JSON.stringify(err, undefined, 2)
+      );
+    }
+  });
+});
+
 export default productRouter;
