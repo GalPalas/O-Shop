@@ -1,6 +1,13 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Product } from '../shared/Product';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+  }),
+};
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +17,23 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  postProduct(product: Product) {
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.baseURL);
+  }
+
+  getProductById(id: string): Observable<Product> {
+    return this.http.get<Product>(`${this.baseURL}/${id}`);
+  }
+
+  postProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(this.baseURL, product);
+  }
+
+  putProduct(id: string, product: Product): Observable<Product> {
+    return this.http.put<Product>(
+      `${this.baseURL}/${id}`,
+      product,
+      httpOptions
+    );
   }
 }

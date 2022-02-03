@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { CustomFormsModule } from 'ng2-validation';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import {
@@ -25,7 +26,7 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
 import { CategoryService } from './services/category.service';
 import { ProductService } from './services/product.service';
 
-const appRoutes = [
+const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },
@@ -33,8 +34,9 @@ const appRoutes = [
   { path: 'order-success', component: OrderSuccessComponent },
   { path: 'my/orders', component: MyOrdersComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin/products', component: AdminProductsComponent },
   { path: 'admin/product/new', component: ProductFormComponent },
+  { path: 'admin/product/:id', component: ProductFormComponent },
+  { path: 'admin/products', component: AdminProductsComponent },
   { path: 'admin/orders', component: AdminOrdersComponent },
 ];
 
@@ -57,8 +59,10 @@ const appRoutes = [
     BrowserModule,
     HttpClientModule,
     SocialLoginModule,
+    CustomFormsModule,
     RouterModule.forRoot(appRoutes),
   ],
+  exports: [RouterModule],
   providers: [
     {
       provide: 'SocialAuthServiceConfig',
