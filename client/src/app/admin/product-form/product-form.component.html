@@ -1,7 +1,7 @@
 <div class="row justify-content-center p-4">
   <div class="col-md-6">
     <form #f="ngForm" (ngSubmit)="save(f.value)">
-      <div class="mb-3">
+      <div class="mb-2">
         <label for="title" class="form-label">Title</label>
         <input
           id="title"
@@ -9,10 +9,18 @@
           name="title"
           class="form-control"
           placeholder="Enter title"
-          ngModel
+          #title="ngModel"
+          [(ngModel)]="product.title"
+          required
         />
       </div>
-      <div class="mb-3">
+      <div
+        class="alert alert-danger p-1"
+        *ngIf="title.touched && title.invalid"
+      >
+        Title is required
+      </div>
+      <div class="mb-2">
         <label for="price" class="form-label">Price</label>
         <div class="input-group mb-3">
           <span class="input-group-text">$</span>
@@ -22,20 +30,44 @@
             name="price"
             class="form-control"
             placeholder="Enter price"
-            ngModel
+            #price="ngModel"
+            [(ngModel)]="product.price"
+            required
+            [min]="0"
           />
         </div>
+        <div
+          class="alert alert-danger p-1"
+          *ngIf="price.touched && price.invalid"
+        >
+          <div *ngIf="price.errors?.['required']">Price is required.</div>
+          <div *ngIf="price.errors?.['min']">Price should be 0 or higher.</div>
+        </div>
       </div>
-      <div class="mb-3">
+
+      <div class="mb-2">
         <label for="category" class="form-label">Category</label>
-        <select id="category" name="category" class="form-select" ngModel>
+        <select
+          id="category"
+          name="category"
+          class="form-select"
+          #category="ngModel"
+          [(ngModel)]="product.category"
+          required
+        >
           <option selected>Select a category</option>
           <option *ngFor="let category of categories" [value]="category.name">
             {{ category.name }}
           </option>
         </select>
       </div>
-      <div class="mb-3">
+      <div
+        class="alert alert-danger p-1"
+        *ngIf="category.touched && category.invalid"
+      >
+        Category is required
+      </div>
+      <div class="mb-2">
         <label for="imgUrl" class="form-label">ImgUrl</label>
         <input
           id="imgUrl"
@@ -43,10 +75,30 @@
           name="imgUrl"
           class="form-control"
           placeholder="Enter image Url"
-          ngModel
+          #imgUrl="ngModel"
+          [(ngModel)]="product.imgUrl"
+          required
+          url
         />
       </div>
-      <button class="btn btn-primary">Save</button>
+
+      <div
+        class="alert alert-danger p-1"
+        *ngIf="imgUrl.touched && imgUrl.invalid"
+      >
+        <div *ngIf="imgUrl.errors?.['required']">ImgUrl is required</div>
+        <div *ngIf="imgUrl.errors?.['url']">Please enter a valid url</div>
+      </div>
+      <button class="btn btn-primary mt-2">Save</button>
     </form>
+  </div>
+  <div class="col-md-6">
+    <div class="card" style="width: 20rem">
+      <img [src]="product.imgUrl" class="card-img-top" *ngIf="product.imgUrl" />
+      <div class="card-body">
+        <h5 class="card-title">{{ product.title }}</h5>
+        <p class="card-text">{{ product.price | currency: "USD":"symbol" }}</p>
+      </div>
+    </div>
   </div>
 </div>
