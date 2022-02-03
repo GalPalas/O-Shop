@@ -36,4 +36,8 @@ export class ProductService {
       httpOptions
     );
   }
+
+  deleteProduct(product: Product) {
+    return this.http.delete<Product>(`${this.baseURL}/${product._id}`);
+  }
 }
